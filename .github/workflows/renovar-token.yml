@@ -1,0 +1,24 @@
+name: Renovar token de Instagram
+
+on:
+  schedule:
+    - cron: "17 5 1,15 * *"
+  workflow_dispatch:
+
+jobs:
+  renovar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Renovar y guardar en secrets
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          NEW=$(python scripts/renovar_token.py)
+          echo "::add-mask::$NEW"
+          gh secret set IG_ACCESS_TOKEN --repo "$GITHUB_REPOSITORY" --body "$NEW"

@@ -1,0 +1,7 @@
+{
+  "zona_horaria": "Europe/Madrid",
+  "franjas": ["08:00", "21:00"],
+  "ventana_min": 120,
+  "max_intentos": 3,
+  "graph_version": "v23.0"
+}
